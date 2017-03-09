@@ -75,7 +75,7 @@ struct Node* insert(struct Node *parent, char *path) {
 
 struct Node* name_is_child(struct Node *node, char *name) {
     struct Node *child;
-    for (int i=0; i<node->children_i; i++) {
+    for (int i=0; i < node->children_i; i++) {
         child = &node->children[i];
         if (strcmp(child->name, name) == 0) return child;
     }
@@ -118,7 +118,7 @@ void insert_paths(struct Node *node, char *paths[]) {
     struct Node *child;
     while (path) {
         child = name_is_child(node, path);
-        if (!child) {
+        if (child == NULL) {
             child = insert(node, path);
         }
         else {
