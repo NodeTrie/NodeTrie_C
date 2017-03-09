@@ -20,5 +20,6 @@ void insert_paths(struct Node *node, char *paths[]);
 struct Node* init_node();
 int is_leaf(struct Node *parent);
 char** match_entries(char **keys, char *query);
+int get_children_size(struct Node *node);
 
 #endif /* NODE_H */

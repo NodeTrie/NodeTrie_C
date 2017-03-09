@@ -143,6 +143,11 @@ int is_leaf(struct Node *parent) {
     return parent->children_i == 0;
 }
 
+int get_children_size(struct Node *node) {
+    if (node == NULL) return 0;
+    return node->children_i;
+}
+
 /*
 
 void insert_all_paths(struct Node *root, char **paths) {
