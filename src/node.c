@@ -42,7 +42,7 @@ struct Node* clear(struct Node *node) {
     node->children_i = 0;
     node->children_size = 0;
     // Clear root node if all sub-tree children have been cleared
-    if(node && strcmp(node->name, "root") == 0) {
+    if(node != NULL && (node->name == NULL)) {
         free(node);
         node = NULL;
         return node;
@@ -97,11 +97,7 @@ int insert_str(struct Node *parent, char *path) {
 }
 
 struct Node* build_index(char *paths[]) {
-    struct Node *root = malloc(sizeof(struct Node));
-    root->name = "root";
-    root->children_i = 0;
-    root->children_size = 1;
-    root->children = NULL;
+    struct Node *root = init_node();
     struct Node *node, *temp = NULL;
     temp = root;
     size_t i = 0;
@@ -133,9 +129,9 @@ void insert_paths(struct Node *node, char *paths[]) {
     }
 }
 
-struct Node* init_node(char *name) {
+struct Node* init_node() {
     struct Node *node = malloc(sizeof(struct Node));
-    node->name = "root";
+    node->name = NULL;
     node->children_i = 0;
     node->children_size = 1;
     node->children = NULL;

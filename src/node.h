@@ -17,7 +17,7 @@ struct Node* name_is_child(struct Node *node, char *name);
 int insert_str(struct Node *parent, char *path);
 struct Node* build_index(char *paths[]);
 void insert_paths(struct Node *node, char *paths[]);
-struct Node* init_node(char *name);
+struct Node* init_node();
 int is_leaf(struct Node *parent);
 char** match_entries(char **keys, char *query);
 
