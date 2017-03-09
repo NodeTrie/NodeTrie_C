@@ -64,7 +64,8 @@ struct Node* insert(struct Node *parent, char *path) {
         }
         else return NULL;
     }
-    parent->children[parent->children_i].name = path;
+    parent->children[parent->children_i].name = malloc(strlen(path)+1 * sizeof(char));
+    if (strcpy(parent->children[parent->children_i].name, path) == NULL) return NULL;
     parent->children[parent->children_i].children_i = 0;
     parent->children[parent->children_i].children_size = 1;
     printf("Inserted %s to %s\n", parent->children[parent->children_i].name, parent->name);

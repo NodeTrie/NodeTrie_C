@@ -3,4 +3,12 @@
 *.la
 *~
 test-driver
+out
+.idea
+*.m4
+test-suite.log
+*/Makefile
+*/Makefile.in
+Makefile
+Makefile.in
 
