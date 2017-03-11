@@ -38,6 +38,7 @@ struct Node* clear(struct Node *node) {
     }
     printf("Freeing node %s children\n", node->name);
     free(node->children);
+    free(node->name);
     node->children = NULL;
     node->children_i = 0;
     node->children_size = 0;
@@ -75,7 +76,7 @@ struct Node* insert(struct Node *parent, char *path) {
 
 struct Node* name_is_child(struct Node *node, char *name) {
     struct Node *child;
-    for (int i=0; i < node->children_i; i++) {
+    for (size_t i=0; i < node->children_i; i++) {
         child = &node->children[i];
         if (strcmp(child->name, name) == 0) return child;
     }
@@ -144,13 +145,7 @@ int is_leaf(struct Node *parent) {
     return parent->children_i == 0;
 }
 
-int get_children_size(struct Node *node) {
-    if (node == NULL) return 0;
-    return node->children_i;
-}
-
 /*
-
 void insert_all_paths(struct Node *root, char **paths) {
     if(!paths) return;
     size_t i = 0;
@@ -161,3 +156,30 @@ void insert_all_paths(struct Node *root, char **paths) {
         printf("%s\n", path);
     }
  }*/
+
+int main(int argc, const char *argv[]) {
+    char *paths[4];
+    paths[0] = "b1";
+    paths[1] = "b2";
+    paths[2] = "b3";
+    paths[3] = NULL;
+
+    struct Node *root = init_node("root");
+    printf("Root node %s, index %zu\n", root->name, root->children_i);
+    insert_paths(root, paths);
+    paths[0] = "b1";
+    paths[1] = "b12";
+    paths[2] = "b13";
+    paths[3] = NULL;
+    insert_paths(root, paths);
+    paths[0] = "b1";
+    paths[1] = "b22";
+    paths[2] = "b23";
+    paths[3] = NULL;
+    insert_paths(root, paths);
+    print_index(root);
+    printf("Root index before clear %zu\n", root->children_i);
+    clear(root);
+    if(!root) printf("Index cleared");
+    return 0;
+}

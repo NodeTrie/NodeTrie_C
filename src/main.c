@@ -3,21 +3,13 @@
 #include "node.h"
 
 int main(int argc, const char *argv[]) {
-    char *paths[3];
+    char *paths[4];
     paths[0] = "b1";
     paths[1] = "b2";
     paths[2] = "b3";
     paths[3] = NULL;
 
-
     struct Node *root = init_node("root");
-    root->name = "root";
-    root->children_i = 0;
-    root->children_size = 1;
-    root->children = NULL;
-
-
-
     printf("Root node %s, index %zu\n", root->name, root->children_i);
     insert_paths(root, paths);
     paths[0] = "b1";

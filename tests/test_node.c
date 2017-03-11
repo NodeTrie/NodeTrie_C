@@ -9,7 +9,7 @@ START_TEST(test_create_index) {
     ck_assert_int_eq(root->children_i, 0);
     ck_assert(root->name == NULL);
     root = clear(root);
-    // ck_assert(!root);
+    ck_assert(root == NULL);
 }
 END_TEST
 
@@ -50,7 +50,7 @@ START_TEST(test_create_index_tree) {
 
     // Clearing
     root = clear(root);
-    ck_assert(!root);
+    ck_assert(root == NULL);
 }
 END_TEST
 
