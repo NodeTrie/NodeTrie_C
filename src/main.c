@@ -9,7 +9,7 @@ int main(int argc, const char *argv[]) {
     paths[2] = "b3";
     paths[3] = NULL;
 
-    struct Node *root = init_node("root");
+    Node *root = init_node("root");
     printf("Root node %s, index %zu\n", root->name, root->children_i);
     insert_paths(root, paths);
     paths[0] = "b1";

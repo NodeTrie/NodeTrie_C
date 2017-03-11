@@ -20,7 +20,7 @@ char** match_entries(char **keys, char *query) {
     return matched_entries;
 }
 
-void print_index(struct Node *node) {
+void print_index(Node *node) {
     if (node->children_i > 0) {
         for (size_t i = 0; i < node->children_i; i++) {
            print_index(&node->children[i]);
@@ -29,7 +29,7 @@ void print_index(struct Node *node) {
     printf("Node %s\n", node->name);
 }
 
-struct Node* clear(struct Node *node) {
+Node* clear(Node *node) {
     if(!node) return node;
     if (node->children_i > 0) {
         for (size_t i = 0; i < node->children_i; i++) {
@@ -50,18 +50,18 @@ struct Node* clear(struct Node *node) {
     }
 }
 
-struct Node* insert(struct Node *parent, char *path) {
+Node* insert(Node *parent, char *path) {
     if (!parent->children) {
-        parent->children = calloc(parent->children_size, sizeof(struct Node));
+        parent->children = calloc(parent->children_size, sizeof(Node));
     }
     if (parent->children_i == parent->children_size) {
         parent->children_size *= 2;
         printf("Resizing children of %s to %zu\n", parent->name, parent->children_size);
-        struct Node *new_children = realloc(parent->children, parent->children_size * sizeof(struct Node));
+        Node *new_children = realloc(parent->children, parent->children_size * sizeof(Node));
         if (new_children) {
             parent->children = new_children;
             memset(&parent->children[parent->children_i], 0,
-                   sizeof(struct Node) * (parent->children_size - parent->children_i));
+                   sizeof(Node) * (parent->children_size - parent->children_i));
         }
         else return NULL;
     }
@@ -74,8 +74,8 @@ struct Node* insert(struct Node *parent, char *path) {
     return &parent->children[parent->children_i-1];
 }
 
-struct Node* name_is_child(struct Node *node, char *name) {
-    struct Node *child;
+Node* name_is_child(Node *node, char *name) {
+    Node *child;
     for (size_t i=0; i < node->children_i; i++) {
         child = &node->children[i];
         if (strcmp(child->name, name) == 0) return child;
@@ -84,7 +84,7 @@ struct Node* name_is_child(struct Node *node, char *name) {
 }
 
 
-int insert_str(struct Node *parent, char *path) {
+int insert_str(Node *parent, char *path) {
     if (!path) return 0;
     char *token, *string, *tofree;
     tofree = string = strdup(path);
@@ -92,15 +92,15 @@ int insert_str(struct Node *parent, char *path) {
     if (token) {
         printf("Inserting node %s to parent %s\n", token, parent->name);
         insert(parent, token);
-        struct Node *node = &parent->children[parent->children_i];
+        Node *node = &parent->children[parent->children_i];
         return insert_str(node, string);
     }
     free(tofree);
 }
 
-struct Node* build_index(char **paths) {
-    struct Node *root = init_node();
-    struct Node *node, *temp = NULL;
+Node* build_index(char **paths) {
+    Node *root = init_node();
+    Node *node, *temp = NULL;
     temp = root;
     size_t i = 0;
     char *path = paths[i];
@@ -113,8 +113,8 @@ struct Node* build_index(char **paths) {
     return root;
 }
 
-void insert_paths(struct Node *node, char **paths) {
-    struct Node *child;
+void insert_paths(Node *node, char **paths) {
+    Node *child;
     while (*paths) {
         child = name_is_child(node, *paths);
         if (child == NULL) {
@@ -128,8 +128,8 @@ void insert_paths(struct Node *node, char **paths) {
     }
 }
 
-struct Node* init_node() {
-    struct Node *node = malloc(sizeof(struct Node));
+Node* init_node() {
+    Node *node = malloc(sizeof(Node));
     node->name = NULL;
     node->children_i = 0;
     node->children_size = 1;
@@ -137,7 +137,7 @@ struct Node* init_node() {
     return node;
 }
 
-int is_leaf(struct Node *parent) {
+int is_leaf(Node *parent) {
     if (!parent) return 0;
     return parent->children_i == 0;
 }
@@ -149,7 +149,7 @@ int main(int argc, const char *argv[]) {
     paths[2] = "b3";
     paths[3] = NULL;
 
-    struct Node *root = init_node("root");
+    Node *root = init_node("root");
     printf("Root node %s, index %zu\n", root->name, root->children_i);
     insert_paths(root, paths);
     paths[0] = "b1";

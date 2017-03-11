@@ -5,7 +5,7 @@
 
 START_TEST(test_create_index) {
 
-    struct Node *root = init_node();
+    Node *root = init_node();
     ck_assert_int_eq(root->children_i, 0);
     ck_assert(root->name == NULL);
     root = clear(root);
@@ -13,10 +13,10 @@ START_TEST(test_create_index) {
 }
 END_TEST
 
-void test_node_children(struct Node *parent, char **name) {
+void test_node_children(Node *parent, char **name) {
     while (*name) {
         printf("Checking name %s\n", *name);
-        struct Node *child = name_is_child(parent, *name);
+        Node *child = name_is_child(parent, *name);
         ck_assert(child != NULL);
         ck_assert_str_eq(child->name, *name);
         parent = child;
@@ -26,8 +26,7 @@ void test_node_children(struct Node *parent, char **name) {
 
 START_TEST(test_create_index_tree) {
     char *paths[] = {"b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", NULL};
-    // char **paths = malloc();
-    struct Node *root = init_node();
+    Node *root = init_node();
     insert_paths(root, paths);
     ck_assert_int_eq(root->children_i, 1);
     for (size_t i = 0; i < 1; i++) {
