@@ -26,6 +26,7 @@ void test_node_children(struct Node *parent, char **name) {
 
 START_TEST(test_create_index_tree) {
     char *paths[] = {"b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", NULL};
+    // char **paths = malloc();
     struct Node *root = init_node();
     insert_paths(root, paths);
     ck_assert_int_eq(root->children_i, 1);

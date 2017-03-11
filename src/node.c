@@ -98,7 +98,7 @@ int insert_str(struct Node *parent, char *path) {
     free(tofree);
 }
 
-struct Node* build_index(char *paths[]) {
+struct Node* build_index(char **paths) {
     struct Node *root = init_node();
     struct Node *node, *temp = NULL;
     temp = root;
@@ -113,21 +113,18 @@ struct Node* build_index(char *paths[]) {
     return root;
 }
 
-void insert_paths(struct Node *node, char *paths[]) {
-    size_t i = 0;
-    char *path = paths[i];
+void insert_paths(struct Node *node, char **paths) {
     struct Node *child;
-    while (path) {
-        child = name_is_child(node, path);
+    while (*paths) {
+        child = name_is_child(node, *paths);
         if (child == NULL) {
-            child = insert(node, path);
+            child = insert(node, *paths);
         }
         else {
-            printf("Name %s already child of %s\n", path, node->name);
+            printf("Name %s already child of %s\n", *paths, node->name);
         }
         node = child;
-        i++;
-        path = paths[i];
+        paths++;
     }
 }
 
@@ -144,18 +141,6 @@ int is_leaf(struct Node *parent) {
     if (!parent) return 0;
     return parent->children_i == 0;
 }
-
-/*
-void insert_all_paths(struct Node *root, char **paths) {
-    if(!paths) return;
-    size_t i = 0;
-    size_t j = 0;
-    char *sub_paths = paths[i];
-    char *path = sub_paths[j];
-    while(path) {
-        printf("%s\n", path);
-    }
- }*/
 
 int main(int argc, const char *argv[]) {
     char *paths[4];
