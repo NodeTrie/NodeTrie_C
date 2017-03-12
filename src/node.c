@@ -26,7 +26,7 @@ void print_index(Node *node) {
            print_index(&node->children[i]);
         }
     }
-    printf("Node %s\n", node->name);
+    // printf("Node %s\n", node->name);
 }
 
 Node* clear(Node *node) {
@@ -36,7 +36,7 @@ Node* clear(Node *node) {
             clear(&node->children[i]);
         }
     }
-    printf("Freeing node %s children\n", node->name);
+    // printf("Freeing node %s children\n", node->name);
     free(node->children);
     free(node->name);
     node->children = NULL;
@@ -56,7 +56,7 @@ Node* insert(Node *parent, char *path) {
     }
     if (parent->children_i == parent->children_size) {
         parent->children_size *= 2;
-        printf("Resizing children of %s to %zu\n", parent->name, parent->children_size);
+        // printf("Resizing children of %s to %zu\n", parent->name, parent->children_size);
         Node *new_children = realloc(parent->children, parent->children_size * sizeof(Node));
         if (new_children) {
             parent->children = new_children;
@@ -69,7 +69,7 @@ Node* insert(Node *parent, char *path) {
     if (strcpy(parent->children[parent->children_i].name, path) == NULL) return NULL;
     parent->children[parent->children_i].children_i = 0;
     parent->children[parent->children_i].children_size = 1;
-    printf("Inserted %s to %s\n", parent->children[parent->children_i].name, parent->name);
+    // printf("Inserted %s to %s\n", parent->children[parent->children_i].name, parent->name);
     parent->children_i++;
     return &parent->children[parent->children_i-1];
 }
@@ -90,7 +90,7 @@ int insert_str(Node *parent, char *path) {
     tofree = string = strdup(path);
     token = strsep(&string, ".");
     if (token) {
-        printf("Inserting node %s to parent %s\n", token, parent->name);
+        // printf("Inserting node %s to parent %s\n", token, parent->name);
         insert(parent, token);
         Node *node = &parent->children[parent->children_i];
         return insert_str(node, string);
@@ -121,7 +121,7 @@ void insert_paths(Node *node, char **paths) {
             child = insert(node, *paths);
         }
         else {
-            printf("Name %s already child of %s\n", *paths, node->name);
+            // printf("Name %s already child of %s\n", *paths, node->name);
         }
         node = child;
         paths++;
@@ -137,9 +137,9 @@ Node* init_node() {
     return node;
 }
 
-int is_leaf(Node *parent) {
-    if (!parent) return 0;
-    return parent->children_i == 0;
+int is_leaf(Node *node) {
+    if (node == NULL) return 0;
+    return node->children_i == 0;
 }
 
 int main(int argc, const char *argv[]) {

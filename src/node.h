@@ -20,7 +20,7 @@ int insert_str(Node *parent, char *path);
 Node* build_index(char **paths);
 void insert_paths(Node *node, char **paths);
 Node* init_node();
-int is_leaf(Node *parent);
+int is_leaf(Node *node);
 char** match_entries(char **keys, char *query);
 
 #endif /* NODE_H */
