@@ -4,6 +4,7 @@
 #include <fnmatch.h>
 #include "node.h"
 
+/*
 char** match_entries(char **keys, char *query) {
     char **matched_entries;
     size_t i = 0, j = 0;
@@ -19,6 +20,7 @@ char** match_entries(char **keys, char *query) {
     matched_entries[j+1] = NULL;
     return matched_entries;
 }
+*/
 
 void print_index(Node *node) {
     if (node->children_i > 0) {
@@ -48,6 +50,7 @@ Node* clear(Node *node) {
         node = NULL;
         return node;
     }
+    return node;
 }
 
 Node* insert(Node *parent, char *path) {
@@ -84,6 +87,7 @@ Node* name_is_child(Node *node, char *name) {
 }
 
 
+/*
 int insert_str(Node *parent, char *path) {
     if (!path) return 0;
     char *token, *string, *tofree;
@@ -97,6 +101,7 @@ int insert_str(Node *parent, char *path) {
     }
     free(tofree);
 }
+*/
 
 Node* build_index(char **paths) {
     Node *root = init_node();
@@ -120,15 +125,17 @@ void insert_paths(Node *node, char **paths) {
         if (child == NULL) {
             child = insert(node, *paths);
         }
+/*
         else {
-            // printf("Name %s already child of %s\n", *paths, node->name);
+            printf("Name %s already child of %s\n", *paths, node->name);
         }
+*/
         node = child;
         paths++;
     }
 }
 
-Node* init_node() {
+Node* init_node(void) {
     Node *node = malloc(sizeof(Node));
     node->name = NULL;
     node->children_i = 0;
@@ -149,7 +156,7 @@ int main(int argc, const char *argv[]) {
     paths[2] = "b3";
     paths[3] = NULL;
 
-    Node *root = init_node("root");
+    Node *root = init_node();
     printf("Root node %s, index %zu\n", root->name, root->children_i);
     insert_paths(root, paths);
     paths[0] = "b1";

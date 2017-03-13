@@ -14,14 +14,17 @@ START_TEST(test_create_index) {
 END_TEST
 
 void test_node_children(Node *parent, char **name) {
+    Node* child;
     while (*name) {
-        printf("Checking name %s\n", *name);
-        Node *child = name_is_child(parent, *name);
+        // printf("Checking name %s\n", *name);
+        child = name_is_child(parent, *name);
         ck_assert(child != NULL);
         ck_assert_str_eq(child->name, *name);
+        ck_assert(!is_leaf(parent));
         parent = child;
         name++;
     }
+    ck_assert(is_leaf(child));
 }
 
 START_TEST(test_create_index_tree) {
