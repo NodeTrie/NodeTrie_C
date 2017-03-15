@@ -53,7 +53,7 @@ Node* clear(Node *node) {
     return node;
 }
 
-Node* insert(Node *parent, char *path) {
+Node* insert(Node *parent, unsigned char *path) {
     if (!parent->children) {
         parent->children = calloc(parent->children_size, sizeof(Node));
     }
@@ -68,7 +68,7 @@ Node* insert(Node *parent, char *path) {
         }
         else return NULL;
     }
-    parent->children[parent->children_i].name = malloc(strlen(path)+1 * sizeof(char));
+    parent->children[parent->children_i].name = malloc(strlen(path)+1 * sizeof(unsigned char));
     if (strcpy(parent->children[parent->children_i].name, path) == NULL) return NULL;
     parent->children[parent->children_i].children_i = 0;
     parent->children[parent->children_i].children_size = 1;
@@ -77,11 +77,9 @@ Node* insert(Node *parent, char *path) {
     return &parent->children[parent->children_i-1];
 }
 
-Node* name_is_child(Node *node, char *name) {
-    Node *child;
+Node* name_is_child(Node *node, unsigned char *name) {
     for (size_t i=0; i < node->children_i; i++) {
-        child = &node->children[i];
-        if (strcmp(child->name, name) == 0) return child;
+        if (strcmp(node->children[i].name, name) == 0) return &node->children[i];
     }
     return NULL;
 }
@@ -103,12 +101,12 @@ int insert_str(Node *parent, char *path) {
 }
 */
 
-Node* build_index(char **paths) {
+Node* build_index(unsigned char **paths) {
     Node *root = init_node();
     Node *node, *temp = NULL;
     temp = root;
     size_t i = 0;
-    char *path = paths[i];
+    unsigned char *path = paths[i];
     while (path) {
         node = insert(temp, path);
         i++;
@@ -118,7 +116,7 @@ Node* build_index(char **paths) {
     return root;
 }
 
-void insert_paths(Node *node, char **paths) {
+void insert_paths(Node *node, unsigned char **paths) {
     Node *child;
     while (*paths) {
         child = name_is_child(node, *paths);
@@ -150,7 +148,7 @@ int is_leaf(Node *node) {
 }
 
 int main(int argc, const char *argv[]) {
-    char *paths[4];
+    unsigned char *paths[4];
     paths[0] = "b1";
     paths[1] = "b2";
     paths[2] = "b3";

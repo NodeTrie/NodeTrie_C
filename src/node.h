@@ -9,19 +9,19 @@ typedef struct _Node Node;
 struct _Node {
     size_t children_i;
     size_t children_size;
-    char *name;
+    unsigned char *name;
     Node *children;
 };
 
 void print_index(Node *node);
 Node* clear(Node *node);
-Node* insert(Node *parent, char *path);
-Node* name_is_child(Node *node, char *name);
-int insert_str(Node *parent, char *path);
-Node* build_index(char **paths);
-void insert_paths(Node *node, char **paths);
+Node* insert(Node *parent, unsigned char *path);
+Node* name_is_child(Node *node, unsigned char *name);
+// int insert_str(Node *parent, static unsigned char *path);
+// Node* build_index(unsigned char **paths);
+void insert_paths(Node *node, unsigned char **paths);
 Node* init_node(void);
 int is_leaf(Node *node);
-char** match_entries(char **keys, char *query);
+// unsigned char** match_entries(unsigned char **keys, unsigned char *query);
 
 #endif /* NODE_H */
