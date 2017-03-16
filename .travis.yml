@@ -1,0 +1,10 @@
+language: c
+sudo: true
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get check autoconf libtool -y
+install:
+  - autoreconf --install
+  - ./configure && make
+script:
+  - make check
