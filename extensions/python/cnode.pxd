@@ -9,3 +9,4 @@ cdef extern from "node.h":
     void insert_paths(Node *node, unsigned char **paths) nogil
     Node* init_node() nogil
     bint is_leaf(Node *node) nogil
+    bint is_pattern(char *pattern) nogil
