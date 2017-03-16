@@ -56,8 +56,23 @@ START_TEST(test_create_index_tree) {
     ck_assert(root == NULL);
 }
 END_TEST
-/*
 
+START_TEST(test_is_pattern) {
+    char *patterns[5] = {"*", "?", "[", "{", NULL};
+    char **pattern = patterns;
+    while(*pattern) {
+        ck_assert(is_pattern(*(pattern)++));
+    }
+
+    char *invalid_patterns[6] = {"jfd", "asdf", "arter", "treop", "ertiu", NULL};
+    pattern = invalid_patterns;
+    while(*pattern) {
+        ck_assert(!is_pattern(*(pattern)++));
+    }
+}
+END_TEST
+
+/*
 START_TEST(test_match_entries) {
     unsigned char *keys[] = {"b1", "b2", "b3", "b4", NULL};
     unsigned char **matches = match_entries(keys, "b*");
@@ -82,6 +97,7 @@ Suite * node_suite(void)
     tcase_add_test(tc_core, test_create_index);
     tcase_add_test(tc_core, test_create_index_tree);
     // tcase_add_test(tc_core, test_match_entries);
+    tcase_add_test(tc_core, test_is_pattern);
     suite_add_tcase(s, tc_core);
     return s;
 }

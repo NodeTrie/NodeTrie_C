@@ -3,6 +3,12 @@
 #include "node.h"
 
 int main(int argc, const char *argv[]) {
+    char *my_patterns[5] = {"adsfasdf", "?", "[", "{", NULL};
+    char **pattern = &my_patterns[0];
+    while(*pattern) {
+        printf("Pattern %s found: %d\n", *pattern, is_pattern(*pattern));
+        pattern++;
+    }
     char *paths[4];
     paths[0] = "b1";
     paths[1] = "b2";

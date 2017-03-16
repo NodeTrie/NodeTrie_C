@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fnmatch.h>
+// #include <fnmatch.h>
 #include "node.h"
+
+unsigned static char patterns[4] = "*?[{";
 
 /*
 char** match_entries(char **keys, char *query) {
@@ -28,7 +30,7 @@ void print_index(Node *node) {
            print_index(&node->children[i]);
         }
     }
-    // printf("Node %s\n", node->name);
+    printf("Node %s\n", node->name);
 }
 
 Node* clear(Node *node) {
@@ -147,29 +149,10 @@ int is_leaf(Node *node) {
     return node->children_i == 0;
 }
 
-int main(int argc, const char *argv[]) {
-    unsigned char *paths[4];
-    paths[0] = "b1";
-    paths[1] = "b2";
-    paths[2] = "b3";
-    paths[3] = NULL;
-
-    Node *root = init_node();
-    printf("Root node %s, index %zu\n", root->name, root->children_i);
-    insert_paths(root, paths);
-    paths[0] = "b1";
-    paths[1] = "b12";
-    paths[2] = "b13";
-    paths[3] = NULL;
-    insert_paths(root, paths);
-    paths[0] = "b1";
-    paths[1] = "b22";
-    paths[2] = "b23";
-    paths[3] = NULL;
-    insert_paths(root, paths);
-    print_index(root);
-    printf("Root index before clear %zu\n", root->children_i);
-    clear(root);
-    if(!root) printf("Index cleared");
+int is_pattern(unsigned char *pattern) {
+    char *_patterns = patterns;
+    while (*_patterns) {
+        if (strchr(pattern, *(_patterns)++)) return 1;
+    }
     return 0;
 }

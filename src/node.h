@@ -1,8 +1,6 @@
 #ifndef NODE_H
 #define NODE_H
 
-#define NullNode(...) { .name = NULL, .children_i = 0, .children_size = 1, .children = NULL, ## __VA_ARGS__ }
-
 // Forward declaration to be able to use Node type inside struct
 typedef struct _Node Node;
 
@@ -22,6 +20,8 @@ Node* name_is_child(Node *node, unsigned char *name);
 void insert_paths(Node *node, unsigned char **paths);
 Node* init_node(void);
 int is_leaf(Node *node);
+int is_pattern(unsigned char *pattern);
 // unsigned char** match_entries(unsigned char **keys, unsigned char *query);
+unsigned static char patterns[4];
 
 #endif /* NODE_H */
