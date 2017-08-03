@@ -21,7 +21,7 @@
 // #include <fnmatch.h>
 #include "node.h"
 
-unsigned static char patterns[4] = "*?[{";
+static char patterns[4] = "*?[{";
 
 /*
 char** match_entries(char **keys, char *query) {
@@ -72,7 +72,7 @@ Node* clear(Node *node) {
     return node;
 }
 
-Node* insert(Node *parent, unsigned char *path) {
+Node* insert(Node *parent, const char *path) {
     if (!parent->children) {
         parent->children = calloc(parent->children_size, sizeof(Node));
     }
@@ -87,7 +87,7 @@ Node* insert(Node *parent, unsigned char *path) {
         }
         else return NULL;
     }
-    parent->children[parent->children_i].name = malloc(strlen(path)+1 * sizeof(unsigned char));
+    parent->children[parent->children_i].name = malloc(strlen(path)+1 * sizeof(char));
     if (strcpy(parent->children[parent->children_i].name, path) == NULL) return NULL;
     parent->children[parent->children_i].children_i = 0;
     parent->children[parent->children_i].children_size = 1;
@@ -96,7 +96,7 @@ Node* insert(Node *parent, unsigned char *path) {
     return &parent->children[parent->children_i-1];
 }
 
-Node* name_is_child(Node *node, unsigned char *name) {
+Node* name_is_child(Node *node, const char *name) {
     for (size_t i=0; i < node->children_i; i++) {
         if (strcmp(node->children[i].name, name) == 0) return &node->children[i];
     }
@@ -120,12 +120,12 @@ int insert_str(Node *parent, char *path) {
 }
 */
 
-Node* build_index(unsigned char **paths) {
+Node* build_index(const char **paths) {
     Node *root = init_node();
     Node *node, *temp = NULL;
     temp = root;
     size_t i = 0;
-    unsigned char *path = paths[i];
+    const char *path = paths[i];
     while (path) {
         node = insert(temp, path);
         i++;
@@ -135,7 +135,7 @@ Node* build_index(unsigned char **paths) {
     return root;
 }
 
-void insert_paths(Node *node, unsigned char **paths) {
+void insert_paths(Node *node, const char **paths) {
     Node *child;
     while (*paths) {
         child = name_is_child(node, *paths);
@@ -166,7 +166,7 @@ int is_leaf(Node *node) {
     return node->children_i == 0;
 }
 
-int is_pattern(unsigned char *pattern) {
+int is_pattern(const char *pattern) {
     char *_patterns = patterns;
     while (*_patterns) {
         if (strchr(pattern, *(_patterns)++)) return 1;
